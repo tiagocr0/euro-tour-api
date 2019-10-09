@@ -7,6 +7,11 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan
+/*
+ * Heroku caminho aplicação - https://euro-tour-teste.herokuapp.com/
+ * Heroku swagger - https://euro-tour-teste.herokuapp.com/swagger-ui.html
+ * 
+ * */
 public class ApirestApplication {
 
 	public static void main(String[] args) {
