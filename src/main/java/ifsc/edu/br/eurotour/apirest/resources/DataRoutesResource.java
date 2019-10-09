@@ -4,6 +4,8 @@ import java.net.URISyntaxException;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -86,20 +88,20 @@ public class DataRoutesResource {
 	
 	@ApiOperation(value="Retorna um exemplo de requisição para o método de busca")
 	@GetMapping("/requisicaoExemplo")
-	public Front descricao(){
+	public ResponseEntity<Front> descricao(){
 		FrontToBack lFrontToBack = new FrontToBack();
 		lFrontToBack.setAlgoritmo(3);
 		lFrontToBack.setOrigem("Grécia – Atenas");
 		lFrontToBack.setDestino("Noruega – Oslo");
 		Front lFront = new Front();
 		lFront.setFront(lFrontToBack);
-		return lFront;
+		return new ResponseEntity<Front>(lFront, HttpStatus.OK);
 	}
 	
 //	@CrossOrigin
 	@ApiOperation(value="Gera um caminho conforme o algoritmo selecionado")
 	@RequestMapping(value = "/busca", method = RequestMethod.POST)
-	public Caminho busca(@RequestBody @Valid  Front front) {
+	public ResponseEntity<Caminho> busca(@RequestBody @Valid  Front front) {
 		try {
 //			getGrafo();
 			int algoritmo = front.getFront().getAlgoritmo();
@@ -110,30 +112,30 @@ public class DataRoutesResource {
 			case 0:
 				// Realiza a busca de buscaProfundidade
 				caminho = profundidade.buscaProfundidade(grafo, origem, destino);
-				return caminho;// new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
+				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 1:
 				// Realiza a busca de Aprofundamento Iterativo
 				caminho = aprofundamentoIterativo.buscaAprofundamentoIterativo(grafo, origem, destino);
-				return caminho;//return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
+				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 2:
 				// Realiza a busca de Bidirecional
 				caminho = bidirecional.buscaBidirecional(grafo, origem, destino);
-				return caminho;//return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
+				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 3:
 				// Realiza a busca de Custo Uniforme
 				caminho = custoUniforme.buscaCustoUniforme(grafo, origem, destino);
-				return caminho;//return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
+				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 4:
 				// Realiza a busca de A*
 				caminho = aEstrela.buscaAEstrela(grafo, origem, destino);
-				return caminho;//return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
+				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			default:
 				System.out.println("Algoritmo incorreto");
-				return caminho;//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return caminho;
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }
