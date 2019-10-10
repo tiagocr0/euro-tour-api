@@ -28,24 +28,21 @@ import ifsc.edu.br.eurotour.apirest.services.DataRoutesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
-
 /**
  * Camada que provê funções para comunicação com o front-end que é chamado
- * através da requisição http://localhost:8081/busca
+ * através da requisição http://localhost:8081/api/busca
  * 
  * @author Tiago
  * 
- * Alteração para mostrar o swagger da aplicação
+ *         Alteração para mostrar o swagger da aplicação
  * @author wilsonfcj
  */
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value="/api")
-@Api(value="API REST Euro Tour")
+@RequestMapping(value = "/api")
+@Api(value = "API REST Euro Tour")
 public class DataRoutesResource {
-	
 
 	private BuscaAprofundamentoIterativoService aprofundamentoIterativo = new BuscaAprofundamentoIterativoService();
 	private BuscaBidirecionalService bidirecional = new BuscaBidirecionalService();
@@ -77,18 +74,13 @@ public class DataRoutesResource {
 	}
 
 	/**
-	 * Realiza a comunicação com o front-end recebendo como parâmetro um objeto no
-	 * formato {@link Front} e realizando o tratamento de qual busca será realizada
+	 * Método para retornar um Json de exemplo de requisição para o método de busca
 	 * 
-	 * @param front {@link Front} que é o formato que será mandado pelo front
-	 * @return {@link Caminho} que contém o caminho que deve ser percorrido para
-	 *         chegar de {@link Vertice} origem até um {@link Vertice} destino
-	 * @throws Exceção no caso de algoritmo inválido
+	 * @return {@link Front} que contém o exemplo que será enviado ao frontend
 	 */
-	
-	@ApiOperation(value="Retorna um exemplo de requisição para o método de busca")
+	@ApiOperation(value = "Retorna um exemplo de requisição para o método de busca")
 	@GetMapping("/requisicaoExemplo")
-	public ResponseEntity<Front> descricao(){
+	public ResponseEntity<Front> descricao() {
 		FrontToBack lFrontToBack = new FrontToBack();
 		lFrontToBack.setAlgoritmo(3);
 		lFrontToBack.setOrigem("Grécia – Atenas");
@@ -97,17 +89,24 @@ public class DataRoutesResource {
 		lFront.setFront(lFrontToBack);
 		return new ResponseEntity<Front>(lFront, HttpStatus.OK);
 	}
-	
-//	@CrossOrigin
-	@ApiOperation(value="Gera um caminho conforme o algoritmo selecionado")
+
+	/**
+	 * Realiza a comunicação com o front-end recebendo como parâmetro um objeto no
+	 * formato {@link Front} e realizando o tratamento de qual busca será realizada
+	 * 
+	 * @param front {@link Front} que é o formato que será mandado pelo front
+	 * @return {@link Caminho} que contém o caminho que deve ser percorrido para
+	 *         chegar de {@link Vertice} origem até um {@link Vertice} destino
+	 * @throws Exceção no caso de algoritmo inválido
+	 */
+	@ApiOperation(value = "Gera um caminho conforme o algoritmo selecionado")
 	@RequestMapping(value = "/busca", method = RequestMethod.POST)
-	public ResponseEntity<Caminho> busca(@RequestBody @Valid  Front front) {
+	public ResponseEntity<Caminho> busca(@RequestBody @Valid Front front) {
 		try {
-//			getGrafo();
 			int algoritmo = front.getFront().getAlgoritmo();
 			Vertice origem = grafo.pesquisaVertice(front.getFront().getOrigem());
 			Vertice destino = grafo.pesquisaVertice(front.getFront().getDestino());
-		
+
 			switch (algoritmo) {
 			case 0:
 				// Realiza a busca de buscaProfundidade

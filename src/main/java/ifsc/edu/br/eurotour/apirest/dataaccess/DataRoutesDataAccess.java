@@ -36,7 +36,7 @@ public class DataRoutesDataAccess implements DataRoutesRepository {
 	public Grafo pegarArquivo() {
 		try {
 			// procura o arquivo a partir de seu caminho
-			Resource resource = new ClassPathResource("plainha_paises_capitais_ordenadas.xlsx");
+			Resource resource = new ClassPathResource("planilha_paises_capitais_ordenadas.xlsx");
 	        InputStream arquivo = resource.getInputStream();
 			// le o arquivo excel para incluir os vertices e Arcos
 			this.lerArquivoExcel(arquivo);
