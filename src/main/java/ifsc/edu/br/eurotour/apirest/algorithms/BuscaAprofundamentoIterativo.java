@@ -40,7 +40,7 @@ public class BuscaAprofundamentoIterativo implements BuscaAprofundamentoIterativ
 		// Caso o encontrou_caminho seja true,significa que foi encontrado o vertice
 		// de destino,e retornará o vertice_final
 		while (!encontrou_caminho) {
-			nosGerados = 0;
+			nosGerados = 1;
 			nosExplorados = 0;
 			vertice_final = buscaProfundidadeLimitada(g, inicial, destino, limite);
 			// Limite é incrementado para caso o caminho não seja encontrado na iteração

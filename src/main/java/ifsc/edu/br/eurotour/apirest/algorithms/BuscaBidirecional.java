@@ -19,7 +19,7 @@ import ifsc.edu.br.eurotour.apirest.repository.BuscaBidirecionalRepository;
  */
 public class BuscaBidirecional implements BuscaBidirecionalRepository {
 	
-	private int lGerados = 0;
+	private int lGerados = 1;
 	private int lExplorados = 0;
 
 	/**
@@ -41,7 +41,7 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 		if (!aInicial.equals(aFinal)) {
 			Grafo.reiniciarGrafo(aGrafo);
 			
-			lGerados = 0;
+			lGerados = 1;
 			lExplorados = 0;
 
 //			Listas de vertices que guardarão os vertices que serão explorados.
@@ -68,12 +68,12 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 			while (!lVerticesAbertorA.isEmpty() || !lVerticesAbertorB.isEmpty()) {
 				Vertice lVerticeAAB = existeCaminho(lVerticesAbertorA, lVerticesExpandidosA, lVerticesExpandidosB);
 				if (lVerticeAAB != null) {
-					lExplorados = lVerticesExpandidosA.size() + lVerticesExpandidosB.size();
+					lGerados = lVerticesExpandidosA.size() + lVerticesExpandidosB.size();
 					return Caminho.converter(aGrafo, gerarCaminho(lVerticeAAB), lVerticeAAB.obterDistancia(),lGerados, lExplorados, Caminho.gerarTempoProcessamento(lTempoInicio));
 				}
 				Vertice lVerticeBBA = existeCaminho(lVerticesAbertorB, lVerticesExpandidosB, lVerticesExpandidosA);
 				if (lVerticeBBA != null) {
-					lExplorados = lVerticesExpandidosA.size() + lVerticesExpandidosB.size();
+					lGerados = lVerticesExpandidosA.size() + lVerticesExpandidosB.size();
 					return Caminho.converter(aGrafo, gerarCaminho(lVerticeBBA), lVerticeBBA.obterDistancia(), lGerados, lExplorados,  Caminho.gerarTempoProcessamento(lTempoInicio));
 				}
 			}
@@ -114,7 +114,7 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 					adjacent.setCaminho(next.getCaminho());
 					aVerticesExpandidosA.add(adjacent);
 					aVerticesAbertos.add(adjacent);
-					lGerados++; 
+					lExplorados++; 
 				}
 			}
 		}

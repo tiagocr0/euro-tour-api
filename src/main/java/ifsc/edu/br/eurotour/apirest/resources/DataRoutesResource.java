@@ -44,11 +44,11 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "API REST Euro Tour")
 public class DataRoutesResource {
 
-	private BuscaAprofundamentoIterativoService aprofundamentoIterativo = new BuscaAprofundamentoIterativoService();
-	private BuscaBidirecionalService bidirecional = new BuscaBidirecionalService();
-	private BuscaCustoUniformeService custoUniforme = new BuscaCustoUniformeService();
-	private BuscaProfundidadeService profundidade = new BuscaProfundidadeService();
-	private BuscaAEstrelaService aEstrela = new BuscaAEstrelaService();
+	private BuscaAprofundamentoIterativoService aprofundamentoIterativo;
+	private BuscaBidirecionalService bidirecional;
+	private BuscaCustoUniformeService custoUniforme;
+	private BuscaProfundidadeService profundidade;
+	private BuscaAEstrelaService aEstrela;
 	private Caminho caminho;
 
 	private Grafo grafo = new Grafo();
@@ -110,22 +110,27 @@ public class DataRoutesResource {
 			switch (algoritmo) {
 			case 0:
 				// Realiza a busca de buscaProfundidade
+				profundidade = new BuscaProfundidadeService();
 				caminho = profundidade.buscaProfundidade(grafo, origem, destino);
 				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 1:
 				// Realiza a busca de Aprofundamento Iterativo
+				aprofundamentoIterativo = new BuscaAprofundamentoIterativoService();
 				caminho = aprofundamentoIterativo.buscaAprofundamentoIterativo(grafo, origem, destino);
 				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 2:
 				// Realiza a busca de Bidirecional
+				bidirecional = new BuscaBidirecionalService();
 				caminho = bidirecional.buscaBidirecional(grafo, origem, destino);
 				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 3:
 				// Realiza a busca de Custo Uniforme
+				custoUniforme = new BuscaCustoUniformeService();
 				caminho = custoUniforme.buscaCustoUniforme(grafo, origem, destino);
 				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			case 4:
 				// Realiza a busca de A*
+				aEstrela = new BuscaAEstrelaService();
 				caminho = aEstrela.buscaAEstrela(grafo, origem, destino);
 				return new ResponseEntity<Caminho>(caminho, HttpStatus.OK);
 			default:

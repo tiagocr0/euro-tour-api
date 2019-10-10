@@ -1,6 +1,5 @@
 package ifsc.edu.br.eurotour.apirest.algorithms;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,15 +26,17 @@ public class BuscaAEstrela implements BuscaAEstrelaRepository, Comparator<Vertic
 
 	/**
 	 * 
-	 * Cria o caminho com o menor custo partindo do vertice inicial baseado em uma heuristica.
+	 * Cria o caminho com o menor custo partindo do vertice inicial baseado em uma
+	 * heuristica.
 	 * 
-	 * @param aGrafo - Parametro utilizado para reiniciar as informações do grafo.
-	 * @param aInicial - Ponto de partida para a busca de custo uniforme 
-	 * @param aFinal - Objetivo, utilizado para verificar se já chegamos ao destino.
+	 * @param aGrafo   - Parametro utilizado para reiniciar as informações do grafo.
+	 * @param aInicial - Ponto de partida para a busca de custo uniforme
+	 * @param aFinal   - Objetivo, utilizado para verificar se já chegamos ao
+	 *                 destino.
 	 * 
-	 * @param Caminho para ser exibido na parte gráfica.
+	 * @param Caminho  para ser exibido na parte gráfica.
 	 * 
-	 * */
+	 */
 	public Caminho buscaAEstrela(Grafo aGrafo, Vertice aInicial, Vertice aFinal) {
 		long lTempoInicio = System.nanoTime();
 		int lGerados = 1;
@@ -47,9 +48,13 @@ public class BuscaAEstrela implements BuscaAEstrelaRepository, Comparator<Vertic
 		aInicial.definirDistancia(0);
 		aInicial.visitar();
 		lVerticesAbertos.add(aInicial);
-		
+
 		while (lVerticesAbertos.size() > 0) {
 			Vertice lVerticeOrigem = lVerticesAbertos.get(MENOR_DISTANCIA);
+			if (lVerticeOrigem.equals(aFinal)) {
+				return Caminho.converter(aGrafo, aFinal, lVerticeOrigem.obterDistancia(), lGerados, lExplorados,
+						Caminho.gerarTempoProcessamento(lTempoInicio));
+			}
 			for (Arco lArco : lVerticeOrigem.obterArcos()) {
 				Vertice lVerticeDestino = lArco.getDestino();
 				Double lDistanciaPorPeso = lArco.getPeso();
@@ -58,44 +63,45 @@ public class BuscaAEstrela implements BuscaAEstrelaRepository, Comparator<Vertic
 					lVerticeDestino.setCaminho(lVerticeOrigem.getCaminho());
 					lVerticeDestino.definirDistancia(lVerticeOrigem.obterDistancia() + lDistanciaPorPeso);
 					lVerticesAbertos.add(lArco.getDestino());
+					lGerados++;
 				} else if (lVerticeDestino.obterDistancia() > (lVerticeDestino.obterDistanciaHeuristica(lVerticeOrigem)
 						+ lVerticeOrigem.obterDistancia())) {
 					lVerticeDestino.setCaminho(lVerticeOrigem.getCaminho());
 					lVerticeDestino.definirDistancia(lVerticeOrigem.obterDistancia() + lDistanciaPorPeso);
 					lVerticesAbertos.add(lArco.getDestino());
 				}
-				lGerados++;
 			}
 			lVerticesAbertos.remove(lVerticeOrigem);
 			lVerticesExpandidos.add(lVerticeOrigem);
 			ordernar(lVerticesAbertos);
-			if (lVerticeOrigem.equals(aFinal)) {
-				lExplorados = lVerticesExpandidos.size();
-				return Caminho.converter(aGrafo, aFinal, lVerticeOrigem.obterDistancia(), lGerados, lExplorados, Caminho.gerarTempoProcessamento(lTempoInicio));
-			}
+			lExplorados++;
+
 		}
-		return Caminho.converter(aGrafo, aFinal, aFinal.obterDistancia(), lGerados, lExplorados, Caminho.gerarTempoProcessamento(lTempoInicio));
+		return Caminho.converter(aGrafo, aFinal, aFinal.obterDistancia(), lGerados, lExplorados,
+				Caminho.gerarTempoProcessamento(lTempoInicio));
 	}
 
-	/** 
-	 * Chama a collections e o método sort para realizar a ordenação conforme nossa implementação do compare.
+	/**
+	 * Chama a collections e o método sort para realizar a ordenação conforme nossa
+	 * implementação do compare.
 	 * 
 	 * @param aArcos - Lista que deseja ordenar.
 	 * 
-	 * */
-	
+	 */
+
 	private static void ordernar(List<Vertice> aArcos) {
 		// Ordena a lista de arcos em ordem crescente
 		Collections.sort(aArcos, new BuscaAEstrela());
 	}
 
-	/** 
-	 * Faz comparações e realiza as ordenações dos arcos por distancia + distancia heuristica.
+	/**
+	 * Faz comparações e realiza as ordenações dos arcos por distancia + distancia
+	 * heuristica.
 	 * 
-	 * @param aVerticeI - vertice que será comparado com o VerticeII.
+	 * @param aVerticeI  - vertice que será comparado com o VerticeII.
 	 * @param aVerticeII - vertice que será comparado com o VerticeI
 	 * 
-	 * */
+	 */
 	// Ordenação dos arcos por distancia + distancia heuristica.
 	@Override
 	public int compare(Vertice aVertice, Vertice aVertice2) {

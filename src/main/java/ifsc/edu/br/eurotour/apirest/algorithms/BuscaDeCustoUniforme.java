@@ -48,7 +48,7 @@ public class BuscaDeCustoUniforme implements BuscaCustoUniformeRepository, Compa
 		aInicial.definirDistancia(0);
 		lVerticesAbertos.add(aInicial);
 		
-		int lGerados = 0;
+		int lGerados = 1;
 		int lExplorados = 0;
 
 		lVerticesAbertos.addAll(aGrafo.obterVertices());

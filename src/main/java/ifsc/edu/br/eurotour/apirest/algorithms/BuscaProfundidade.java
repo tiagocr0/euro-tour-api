@@ -17,9 +17,6 @@ import ifsc.edu.br.eurotour.apirest.repository.BuscaProfundidadeRepository;
  */
 public class BuscaProfundidade implements BuscaProfundidadeRepository {
 
-	private int nosGerados = 0;
-	private int nosExplorados = 0;
-
 	/**
 	 * Realiza a busca em profundidade de um certo grafo, a partir de um vertice
 	 * inicial
@@ -30,6 +27,8 @@ public class BuscaProfundidade implements BuscaProfundidadeRepository {
 	 */
 	@Override
 	public Caminho buscaProfundidade(Grafo g, Vertice inicial, Vertice destino) {
+		int nosGerados = 1;
+		int nosExplorados = 0;
 		// Variável de tempo de início do método
 		long tempoInicio = System.nanoTime();
 		// Lista com todos os vertices do grafo
