@@ -9,8 +9,6 @@ import ifsc.edu.br.eurotour.apirest.model.grafo.Vertice;
 import ifsc.edu.br.eurotour.apirest.model.mapeamento.Caminho;
 import ifsc.edu.br.eurotour.apirest.repository.BuscaBidirecionalRepository;
 
-
-
 /**
  * Classe que representa a Busca Bidirecional através de um Grafo
  * 
@@ -18,7 +16,7 @@ import ifsc.edu.br.eurotour.apirest.repository.BuscaBidirecionalRepository;
  * 
  */
 public class BuscaBidirecional implements BuscaBidirecionalRepository {
-	
+
 	private int lGerados = 1;
 	private int lExplorados = 0;
 
@@ -40,7 +38,7 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 		long lTempoInicio = System.nanoTime();
 		if (!aInicial.equals(aFinal)) {
 			Grafo.reiniciarGrafo(aGrafo);
-			
+
 			lGerados = 1;
 			lExplorados = 0;
 
@@ -61,24 +59,25 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 
 			lVerticesAbertorA.add(aInicial);
 			lVerticesAbertorB.add(aFinal);
-			
-			
 
 //	        Realiza as verificações para ver se existe um caminho entre o vertice final com o vertice inicial.
 			while (!lVerticesAbertorA.isEmpty() || !lVerticesAbertorB.isEmpty()) {
 				Vertice lVerticeAAB = existeCaminho(lVerticesAbertorA, lVerticesExpandidosA, lVerticesExpandidosB);
 				if (lVerticeAAB != null) {
 					lGerados = lVerticesExpandidosA.size() + lVerticesExpandidosB.size();
-					return Caminho.converter(aGrafo, gerarCaminho(lVerticeAAB), lVerticeAAB.obterDistancia(),lGerados, lExplorados, Caminho.gerarTempoProcessamento(lTempoInicio));
+					return Caminho.converter(aGrafo, gerarCaminho(lVerticeAAB), lVerticeAAB.obterDistancia(), lGerados,
+							lExplorados, Caminho.gerarTempoProcessamento(lTempoInicio));
 				}
 				Vertice lVerticeBBA = existeCaminho(lVerticesAbertorB, lVerticesExpandidosB, lVerticesExpandidosA);
 				if (lVerticeBBA != null) {
 					lGerados = lVerticesExpandidosA.size() + lVerticesExpandidosB.size();
-					return Caminho.converter(aGrafo, gerarCaminho(lVerticeBBA), lVerticeBBA.obterDistancia(), lGerados, lExplorados,  Caminho.gerarTempoProcessamento(lTempoInicio));
+					return Caminho.converter(aGrafo, gerarCaminho(lVerticeBBA), lVerticeBBA.obterDistancia(), lGerados,
+							lExplorados, Caminho.gerarTempoProcessamento(lTempoInicio));
 				}
 			}
 		}
-		return Caminho.converter(aGrafo, aFinal, aFinal.obterDistancia(), lGerados, lExplorados, Caminho.gerarTempoProcessamento(lTempoInicio));
+		return Caminho.converter(aGrafo, aFinal, aFinal.obterDistancia(), lGerados, lExplorados,
+				Caminho.gerarTempoProcessamento(lTempoInicio));
 	}
 
 	/**
@@ -114,13 +113,13 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 					adjacent.setCaminho(next.getCaminho());
 					aVerticesExpandidosA.add(adjacent);
 					aVerticesAbertos.add(adjacent);
-					lExplorados++; 
+					lExplorados++;
 				}
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * Cria o caminho através do vertice central em que os dois caminhos se
@@ -146,7 +145,7 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 
 	/**
 	 * 
-	 * Invernte um vetor do tipo String, deixando os itens da últimas posições nas
+	 * Inverte um vetor do tipo String, deixando os itens da últimas posições nas
 	 * primeira e os primeiros nas últimas.
 	 * 
 	 * ARRAY[0] = últimoItem, ARRAY[1] = penúltimoItem, ARRAY[2] = antepenúltimoItem
