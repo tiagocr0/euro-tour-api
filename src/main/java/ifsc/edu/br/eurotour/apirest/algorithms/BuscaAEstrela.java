@@ -40,7 +40,7 @@ public class BuscaAEstrela implements BuscaAEstrelaRepository, Comparator<Vertic
 	public Caminho buscaAEstrela(Grafo aGrafo, Vertice aInicial, Vertice aFinal) {
 		long lTempoInicio = System.nanoTime();
 		int lGerados = 1;
-		int lExplorados = 0;
+		int lExplorados = 1;
 		final_ = aFinal;
 		List<Vertice> lVerticesAbertos = new ArrayList<>();
 		List<Vertice> lVerticesExpandidos = new ArrayList<>();

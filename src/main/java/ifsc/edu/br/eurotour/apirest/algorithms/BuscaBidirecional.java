@@ -40,7 +40,7 @@ public class BuscaBidirecional implements BuscaBidirecionalRepository {
 			Grafo.reiniciarGrafo(aGrafo);
 
 			lGerados = 1;
-			lExplorados = 0;
+			lExplorados = 1;
 
 //			Listas de vertices que guardarão os vertices que serão explorados.
 			List<Vertice> lVerticesAbertorA = new ArrayList<>();
